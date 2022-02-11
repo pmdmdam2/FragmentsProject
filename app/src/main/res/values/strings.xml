@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">FragmentsProject</string>
+    <string name="pregunta">Pulsa y te pregunto</string>
+    <string name="pregunta_importante">Pregunta muy importante</string>
+    <string name="pregunta_sexo">¿Eres una chica?</string>
+    <string name="selecciona_color">Selecciona un color</string>
+    <string name="rojo">Rojo</string>
+    <string name="verde">Verde</string>
+    <string name="azul">Azul</string>
+    <string-array name="colors_array">
+        <item>@string/rojo</item>
+        <item>@string/verde</item>
+        <item>@string/azul</item>
+    </string-array>
+</resources>
