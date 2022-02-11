@@ -11,22 +11,25 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.fragmentsproject.R;
+import com.example.fragmentsproject.activities.MainActivity;
 import com.example.fragmentsproject.interfaces.RespuestaDialogoSexo;
 
 import java.util.ArrayList;
 
 public class DialogoSexo extends DialogFragment {
     private RespuestaDialogoSexo respuesta;
-
+    private boolean[] selected;
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        this.selected = ((MainActivity)getActivity()).getChecked();
         return showMultipleOptionsDialog();
     }
 
     private Dialog showMultipleOptionsDialog() {
         ArrayList mSelectedItems = new ArrayList();
-//elementos de la lista seleccionados
+
+        //elementos de la lista seleccionados
         AlertDialog.Builder builder = new
                 AlertDialog.Builder(getActivity());
         //se establece el título del cuadro de diálogo
@@ -35,7 +38,7 @@ public class DialogoSexo extends DialogFragment {
                 // seleccionar (null para ninguno),
                 // y se asocia el método de evento que recibirá el
                 //callbacks cuando los elementos sean seleccionados
-                .setMultiChoiceItems(R.array.toppings, null,
+                .setMultiChoiceItems(R.array.toppings, selected,
                         new DialogInterface.OnMultiChoiceClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which,
@@ -45,13 +48,13 @@ public class DialogoSexo extends DialogFragment {
                                     // la lista
                                     mSelectedItems.add(which);
                                 } else if
-                                (mSelectedItems.contains(which)) {
+                                    (mSelectedItems.contains(which)) {
                                     // se elimina el elemento no
                                     // elegido de la lista
-
-                                    mSelectedItems.
-                                            remove(Integer.valueOf(which));
+                                    mSelectedItems.remove(Integer.valueOf(which));
                                 }
+                                selected[which]=isChecked;
+                                ((MainActivity)getActivity()).saveChecked(selected);
                             }
                         })
                 // se definen los botones de acción
