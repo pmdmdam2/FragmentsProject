@@ -7,9 +7,20 @@
     <string name="rojo">Rojo</string>
     <string name="verde">Verde</string>
     <string name="azul">Azul</string>
+    <string name="elige_ingrediente">Elige los ingredientes</string>
+    <string name="lechuga">Lechuga</string>
+    <string name="tomate">Tomate</string>
+    <string name="cebolla">Cebollar</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancelar</string>
     <string-array name="colors_array">
         <item>@string/rojo</item>
         <item>@string/verde</item>
         <item>@string/azul</item>
+    </string-array>
+    <string-array name="toppings">
+        <item>@string/lechuga</item>
+        <item>@string/tomate</item>
+        <item>@string/cebolla</item>
     </string-array>
 </resources>

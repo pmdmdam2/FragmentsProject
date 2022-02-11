@@ -13,14 +13,69 @@ import androidx.fragment.app.DialogFragment;
 import com.example.fragmentsproject.R;
 import com.example.fragmentsproject.interfaces.RespuestaDialogoSexo;
 
+import java.util.ArrayList;
+
 public class DialogoSexo extends DialogFragment {
     private RespuestaDialogoSexo respuesta;
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        return showListItemsDialog();
+        return showMultipleOptionsDialog();
     }
+
+    private Dialog showMultipleOptionsDialog() {
+        ArrayList mSelectedItems = new ArrayList();
+//elementos de la lista seleccionados
+        AlertDialog.Builder builder = new
+                AlertDialog.Builder(getActivity());
+        //se establece el título del cuadro de diálogo
+        builder.setTitle(R.string.elige_ingrediente)
+                // se asigna la lista de elementos que se pueden
+                // seleccionar (null para ninguno),
+                // y se asocia el método de evento que recibirá el
+                //callbacks cuando los elementos sean seleccionados
+                .setMultiChoiceItems(R.array.toppings, null,
+                        new DialogInterface.OnMultiChoiceClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which,
+                                                boolean isChecked) {
+                                if (isChecked) {
+                                    // se agrega el elemento elegido a
+                                    // la lista
+                                    mSelectedItems.add(which);
+                                } else if
+                                (mSelectedItems.contains(which)) {
+                                    // se elimina el elemento no
+                                    // elegido de la lista
+
+                                    mSelectedItems.
+                                            remove(Integer.valueOf(which));
+                                }
+                            }
+                        })
+                // se definen los botones de acción
+                .setPositiveButton(R.string.ok, new
+                        DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface
+                                                        dialog, int id) {
+                                //se tratan los elementos
+                                //seleccionados
+                            }
+                        })
+                .setNegativeButton(R.string.cancel, new
+                        DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface
+                                                        dialog, int id) {
+                                //se descartan los elementos
+                                //seleccionados
+                            }
+                        });
+        return builder.create();
+    }
+
     private Dialog showListItemsDialog() {
         AlertDialog.Builder builder = new
                 AlertDialog.Builder(getActivity());
