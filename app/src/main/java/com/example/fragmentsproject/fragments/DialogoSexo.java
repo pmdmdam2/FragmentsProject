@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,14 +17,73 @@ import com.example.fragmentsproject.interfaces.RespuestaDialogoSexo;
 
 import java.util.ArrayList;
 
+/**
+ * Cuadros de diálogo con distintos niveles de personalización
+ * @author Rafa
+ * @version 1.0
+ */
 public class DialogoSexo extends DialogFragment {
+    public static final int DEFAULT_TYPE=0;
+    public static final int CUSTOM_TYPE=1;
+    public static final int LIST_TYPE=2;
+    public static final int MULTIPLE_TYPE=3;
+    private int type;
     private RespuestaDialogoSexo respuesta;
     private boolean[] selected;
+    public DialogoSexo(int type){
+        this.type = type;
+    }
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        this.selected = ((MainActivity)getActivity()).getChecked();
-        return showMultipleOptionsDialog();
+        this.selected = ((MainActivity) getActivity()).getChecked();
+        switch(this.type){
+            case DEFAULT_TYPE:
+                return showSexDialog();
+            case CUSTOM_TYPE:
+                return showCustomDialog();
+            case LIST_TYPE:
+                return showListItemsDialog();
+            case MULTIPLE_TYPE:
+                return showMultipleOptionsDialog();
+            default:
+                return this.showSexDialog();
+        }
+    }
+
+    private Dialog showCustomDialog() {
+        AlertDialog.Builder builder = new
+                AlertDialog.Builder(getActivity());
+        //se obtiene el inflador de interfaces
+        LayoutInflater inflater =
+                getActivity().getLayoutInflater();
+        // se infla la interfaz del cuadro de diálogo y se
+        // asigna null a la vista padre del layout porque la
+        // misma sería el propio cuadro de diálogo
+
+        builder.
+                setView(inflater.
+                        inflate(R.layout.dialog_signin, null))
+                // se añaden los botones de acción
+                .setPositiveButton(R.string.signin, new
+                        DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog,
+                                                int id) {
+                                //aquí el código necesario para la
+                                //aprobar el login
+                            }
+                        })
+                .setNegativeButton(R.string.cancel, new
+                        DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface
+                                                        dialog, int id) {
+                            //se cancela el cuadro de diálogo
+                                DialogoSexo.this.
+                                        getDialog().cancel();
+                            }
+                        });
+        return builder.create();
     }
 
     private Dialog showMultipleOptionsDialog() {
@@ -48,13 +108,13 @@ public class DialogoSexo extends DialogFragment {
                                     // la lista
                                     mSelectedItems.add(which);
                                 } else if
-                                    (mSelectedItems.contains(which)) {
+                                (mSelectedItems.contains(which)) {
                                     // se elimina el elemento no
                                     // elegido de la lista
                                     mSelectedItems.remove(Integer.valueOf(which));
                                 }
-                                selected[which]=isChecked;
-                                ((MainActivity)getActivity()).saveChecked(selected);
+                                selected[which] = isChecked;
+                                ((MainActivity) getActivity()).saveChecked(selected);
                             }
                         })
                 // se definen los botones de acción
